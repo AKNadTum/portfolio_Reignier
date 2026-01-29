@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 import { writeFile, unlink } from "fs/promises";
 import path from "path";
@@ -12,7 +13,7 @@ import crypto from "crypto";
  * Vérifie l'authentification de l'administrateur, valide le fichier (type et taille),
  * optimise l'image via Sharp (conversion en WebP, redimensionnement) et gère la suppression
  * des anciennes images si nécessaire.
- * 
+ *
  * @param {NextRequest} req La requête HTTP contenant les données du formulaire (file, oldUrl).
  * @returns {Promise<NextResponse>} La réponse JSON contenant l'URL de l'image ou une erreur.
  */
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    
+
     /** Création d'un nom de fichier : soit un hash, soit un nom personnalisé */
     let filename: string;
     if (customFilename) {
@@ -80,12 +81,17 @@ export async function POST(req: NextRequest) {
       try {
         /** Traitement de l'image avec Sharp : redimensionnement et conversion en WebP */
         await sharp(buffer)
-          .resize(1200, 1200, {
-            fit: "inside",
-            withoutEnlargement: true,
-          })
-          .webp({ quality: 80 })
-          .toFile(filePath);
+            .resize(1200, 1200, {
+              fit: "inside",
+              withoutEnlargement: true,
+            })
+            .webp({ quality: 80 })
+            .toFile(filePath);
+
+        /** Force Next.js à reconnaître le nouveau fichier immédiatement */
+        revalidatePath('/uploads');
+        revalidatePath(url);
+
       } catch (sharpError) {
         console.error("Sharp processing error:", sharpError);
         throw sharpError;
@@ -100,6 +106,8 @@ export async function POST(req: NextRequest) {
         try {
           if (fs.existsSync(oldPath)) {
             await unlink(oldPath);
+            /** Invalide aussi le cache de l'ancienne image */
+            revalidatePath(oldUrl);
           }
         } catch (error) {
           console.error("Error deleting old image:", error);
@@ -107,7 +115,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json({ url });
+    /** Ajoute un timestamp pour le cache-busting côté client */
+    const urlWithTimestamp = `${url}?t=${Date.now()}`;
+
+    return NextResponse.json({ url: urlWithTimestamp });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
