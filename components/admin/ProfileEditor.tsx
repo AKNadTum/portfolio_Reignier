@@ -241,7 +241,13 @@ export function ProfileEditor({ initialData }: ProfileEditorProps) {
             <div className="relative aspect-square w-full max-w-[300px] mx-auto group">
               {aboutPhoto && aboutPhoto.trim() !== "" ? (
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-zinc-800 group-hover:border-white transition-colors">
-                  <Image src={aboutPhoto} alt="Profile" fill className="object-cover" />
+                  <Image 
+                    src={aboutPhoto} 
+                    alt="Profile" 
+                    fill 
+                    className="object-cover" 
+                    unoptimized={aboutPhoto.startsWith("/uploads/")}
+                  />
                   <button 
                     onClick={() => setAboutPhoto("")}
                     className="absolute top-2 right-2 p-2 bg-black/50 backdrop-blur-md rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity"

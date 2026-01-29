@@ -80,7 +80,7 @@ export default function ProjectClient({ project, profile }: ProjectClientProps) 
               fill
               className="object-cover"
               priority
-              unoptimized={!project.image || project.image.trim() === ""}
+              unoptimized={!project.image || project.image.trim() === "" || project.image.startsWith("/uploads/")}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
           </motion.div>

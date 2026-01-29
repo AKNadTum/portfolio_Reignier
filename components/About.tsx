@@ -38,7 +38,7 @@ export function About({
                 alt="Portrait de l'artiste"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
-                unoptimized={!photo || photo.trim() === ""}
+                unoptimized={!photo || photo.trim() === "" || photo.startsWith("/uploads/")}
               />
             </div>
             

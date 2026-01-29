@@ -189,7 +189,13 @@ export function ProjectManager({ initialProjects }: ProjectManagerProps) {
                   <TableCell>
                     <div className="relative w-16 h-10 rounded overflow-hidden bg-black">
                       {project.image && project.image.trim() !== "" ? (
-                        <Image src={project.image} alt={project.title} fill className="object-cover" />
+                        <Image 
+                          src={project.image} 
+                          alt={project.title} 
+                          fill 
+                          className="object-cover" 
+                          unoptimized={project.image.startsWith("/uploads/")}
+                        />
                       ) : (
                         <div className="flex items-center justify-center h-full text-[8px] text-zinc-700">NO IMG</div>
                       )}
@@ -328,7 +334,13 @@ export function ProjectManager({ initialProjects }: ProjectManagerProps) {
                 <div className="flex items-start gap-4">
                   {imageUrl && imageUrl.trim() !== "" && (
                     <div className="relative w-40 h-24 rounded-lg overflow-hidden border border-zinc-800">
-                      <Image src={imageUrl} alt="Project Preview" fill className="object-cover" />
+                      <Image 
+                        src={imageUrl} 
+                        alt="Project Preview" 
+                        fill 
+                        className="object-cover" 
+                        unoptimized={imageUrl.startsWith("/uploads/")}
+                      />
                     </div>
                   )}
                   <div className="flex-1">

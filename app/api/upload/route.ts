@@ -67,14 +67,19 @@ export async function POST(req: NextRequest) {
 
     /** Si le fichier n'existe pas encore ou si on utilise un nom personnalisé, on le traite et on l'enregistre */
     if (!fs.existsSync(filePath) || customFilename) {
-      /** Traitement de l'image avec Sharp : redimensionnement et conversion en WebP */
-      await sharp(buffer)
-        .resize(1200, 1200, {
-          fit: "inside",
-          withoutEnlargement: true,
-        })
-        .webp({ quality: 80 })
-        .toFile(filePath);
+      try {
+        /** Traitement de l'image avec Sharp : redimensionnement et conversion en WebP */
+        await sharp(buffer)
+          .resize(1200, 1200, {
+            fit: "inside",
+            withoutEnlargement: true,
+          })
+          .webp({ quality: 80 })
+          .toFile(filePath);
+      } catch (sharpError) {
+        console.error("Sharp processing error:", sharpError);
+        throw sharpError;
+      }
     }
 
     /** Suppression de l'ancienne image si elle est fournie et différente de la nouvelle */
