@@ -57,9 +57,19 @@ export async function POST(req: NextRequest) {
 
     const uploadDir = path.join(process.cwd(), "public", "uploads");
 
-    /** S'assure que le répertoire de téléchargement existe */
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
+    /** S'assure que le répertoire de téléchargement existe et est accessible */
+    try {
+      if (!fs.existsSync(uploadDir)) {
+        console.log(`Creating upload directory: ${uploadDir}`);
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      // Test de permission d'écriture
+      const testFile = path.join(uploadDir, ".write-test");
+      fs.writeFileSync(testFile, "test");
+      fs.unlinkSync(testFile);
+    } catch (fsError) {
+      console.error("Filesystem permission error in upload directory:", fsError);
+      return NextResponse.json({ error: "Upload directory not writable" }, { status: 500 });
     }
 
     const filePath = path.join(uploadDir, filename);

@@ -17,11 +17,9 @@ services:
       - 3454:3454
     volumes:
       - uploads:/usr/src/app/public/uploads
-      - images:/usr/src/app/public/images
 
 volumes:
   uploads:
-  images:
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
