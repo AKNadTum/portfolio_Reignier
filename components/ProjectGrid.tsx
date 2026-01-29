@@ -23,8 +23,8 @@ export function ProjectGrid({ projects = [] }: ProjectGridProps) {
 
   const filterOptions = useMemo(() => {
     const categories = Array.from(new Set(projects.map(p => p.category).filter(Boolean)));
-    const shuffled = [...categories].sort(() => 0.5 - Math.random());
-    return ["All", ...shuffled.slice(0, 5)];
+    const sorted = [...categories].sort((a, b) => a.localeCompare(b));
+    return ["All", ...sorted.slice(0, 5)];
   }, [projects]);
 
   const filteredProjects = filter === "All" 
@@ -81,7 +81,7 @@ export function ProjectGrid({ projects = [] }: ProjectGridProps) {
                   <div className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 transition-all duration-500 hover:border-white/20 shadow-xl group-hover:shadow-2xl group-hover:shadow-white/5">
                     <div className="relative aspect-[16/11] overflow-hidden">
                       <Image
-                        src={project.image || "/images/placeholder.jpg"}
+                        src={project.image || "/images/placeholder.svg"}
                         alt={project.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
