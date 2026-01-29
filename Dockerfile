@@ -46,6 +46,10 @@ COPY . .
 # Generate Prisma Client
 RUN npx prisma generate
 
+# Set dummy environment variables for build process
+ENV BETTER_AUTH_SECRET=dummy_secret_for_build_only_123456
+ENV BETTER_AUTH_URL=http://localhost:3000
+
 # Run the build script.
 RUN npm run build
 

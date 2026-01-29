@@ -11,6 +11,8 @@ import Link from "next/link";
 import { ArrowLeft, User, LayoutGrid, Settings, Mail } from "lucide-react";
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminPage() {
   const profile = await getProfile();
   const projects = await getProjects();

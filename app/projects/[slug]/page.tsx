@@ -3,6 +3,8 @@ import { getProfile } from "@/lib/services/portfolio";
 import { notFound } from "next/navigation";
 import ProjectClient from "./ProjectClient";
 
+export const dynamic = "force-dynamic";
+
 interface ProjectPageProps {
   params: Promise<{
     slug: string;
