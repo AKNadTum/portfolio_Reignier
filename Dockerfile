@@ -48,7 +48,7 @@ RUN npx prisma generate
 
 # Set dummy environment variables for build process
 ENV BETTER_AUTH_SECRET=dummy_secret_for_build_only_123456
-ENV BETTER_AUTH_URL=http://localhost:3000
+ENV BETTER_AUTH_URL=https://portfolio-reignier.eternom.fr
 
 # Run the build script.
 RUN npm run build
@@ -77,4 +77,4 @@ COPY --from=build /usr/src/app/ ./
 EXPOSE 3454
 
 # Run the application.
-CMD npm start
+CMD npm start -- -p 3454
