@@ -1,11 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
 ARG NODE_VERSION=24.11.1
 
 ################################################################################
@@ -64,6 +58,10 @@ FROM base as final
 # Use production node environment by default.
 ENV NODE_ENV production
 
+# ✅ Créer le répertoire uploads AVANT de passer en user node
+RUN mkdir -p /usr/src/app/public/uploads && \
+    chown -R node:node /usr/src/app/public/uploads
+
 # Run the application as a non-root user.
 USER node
 
@@ -75,6 +73,9 @@ COPY --chown=node:node package.json .
 COPY --chown=node:node --from=deps /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/ ./
 
+# ✅ IMPORTANT: Déclarer le volume pour persister les uploads
+# Ce dossier sera monté depuis l'hôte et survivra aux redémarrages
+VOLUME ["/usr/src/app/public/uploads"]
 
 # Expose the port that the application listens on.
 EXPOSE 3454
