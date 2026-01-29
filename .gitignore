@@ -48,9 +48,6 @@ next-env.d.ts
 generate/
 prisma/generated/
 
-# images
-public/uploads/
-!public/uploads/.gitkeep
 
 # database
 dev.db
