@@ -34,10 +34,11 @@ export function About({
             <div className="absolute inset-0 bg-gradient-to-tr from-primary to-purple-600 rounded-[2rem] md:rounded-[3rem] rotate-3 scale-105 opacity-20 group-hover:rotate-6 transition-transform duration-700" />
             <div className="relative h-full w-full rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl bg-zinc-900">
               <Image
-                src={photo || "/images/profile.jpg"}
+                src={photo && photo.trim() !== "" ? photo : "/images/profile.jpg"}
                 alt="Portrait de l'artiste"
                 fill
                 className="object-cover grayscale hover:grayscale-0 transition-all duration-1000 scale-110 group-hover:scale-100"
+                unoptimized={!photo || photo.trim() === ""}
               />
             </div>
             

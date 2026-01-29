@@ -68,23 +68,22 @@ export default function ProjectClient({ project, profile }: ProjectClientProps) 
           </div>
 
           {/* Featured Image */}
-          {project.image && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="relative aspect-[16/9] md:aspect-[21/9] w-full mb-20 overflow-hidden rounded-[2rem] shadow-2xl border border-white/5"
-            >
-              <Image 
-                src={project.image} 
-                alt={project.title} 
-                fill
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            </motion.div>
-          )}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            className="relative aspect-[16/9] md:aspect-[21/9] w-full mb-20 overflow-hidden rounded-[2rem] shadow-2xl border border-white/5"
+          >
+            <Image 
+              src={project.image && project.image.trim() !== "" ? project.image : "/images/placeholder.svg"} 
+              alt={project.title} 
+              fill
+              className="object-cover"
+              priority
+              unoptimized={!project.image || project.image.trim() === ""}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+          </motion.div>
 
           {/* Project Content */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">

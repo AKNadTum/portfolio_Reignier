@@ -188,7 +188,7 @@ export function ProjectManager({ initialProjects }: ProjectManagerProps) {
                 <TableRow key={project.id} className="border-zinc-800 hover:bg-zinc-800/30 transition-colors">
                   <TableCell>
                     <div className="relative w-16 h-10 rounded overflow-hidden bg-black">
-                      {project.image ? (
+                      {project.image && project.image.trim() !== "" ? (
                         <Image src={project.image} alt={project.title} fill className="object-cover" />
                       ) : (
                         <div className="flex items-center justify-center h-full text-[8px] text-zinc-700">NO IMG</div>
@@ -326,7 +326,7 @@ export function ProjectManager({ initialProjects }: ProjectManagerProps) {
               <div className="space-y-4">
                 <FormLabel className="uppercase text-[10px] font-bold tracking-[0.2em] text-zinc-500">Image du projet</FormLabel>
                 <div className="flex items-start gap-4">
-                  {imageUrl && (
+                  {imageUrl && imageUrl.trim() !== "" && (
                     <div className="relative w-40 h-24 rounded-lg overflow-hidden border border-zinc-800">
                       <Image src={imageUrl} alt="Project Preview" fill className="object-cover" />
                     </div>

@@ -81,10 +81,11 @@ export function ProjectGrid({ projects = [] }: ProjectGridProps) {
                   <div className="relative overflow-hidden rounded-2xl bg-zinc-900 border border-white/5 transition-all duration-500 hover:border-white/20 shadow-xl group-hover:shadow-2xl group-hover:shadow-white/5">
                     <div className="relative aspect-[16/11] overflow-hidden">
                       <Image
-                        src={project.image || "/images/placeholder.svg"}
+                        src={project.image && project.image.trim() !== "" ? project.image : "/images/placeholder.svg"}
                         alt={project.title}
                         fill
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        unoptimized={!project.image || project.image.trim() === ""}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
                       

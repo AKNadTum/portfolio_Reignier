@@ -239,7 +239,7 @@ export function ProfileEditor({ initialData }: ProfileEditorProps) {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="relative aspect-square w-full max-w-[300px] mx-auto group">
-              {aboutPhoto ? (
+              {aboutPhoto && aboutPhoto.trim() !== "" ? (
                 <div className="relative w-full h-full rounded-2xl overflow-hidden border-2 border-zinc-800 group-hover:border-white transition-colors">
                   <Image src={aboutPhoto} alt="Profile" fill className="object-cover" />
                   <button 
